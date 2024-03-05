@@ -10,14 +10,16 @@ jobs:
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
-            github.issues.createComment({
+          github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: "🎉 You've created this issue comment using GitHub Script!!!"
-            })
-            github.projects.createCard({
-            column_id: {{columnID}},
+          });
+          // Ensure the column ID is correctly set. Replace '12345678' with your actual column ID
+          const columnId = 12345678; // Example column ID; replace with actual ID
+          github.rest.projects.createCard({
+            column_id: columnId,
             content_id: context.payload.issue.id,
             content_type: "Issue"
-            });
+          });
